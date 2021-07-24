@@ -1,0 +1,29 @@
+version: "3"
+services:
+  nginx:
+    container_name: "nginx-server"
+    image: nginx
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ../frontend/app:/usr/share/nginx/html/
+    ports:
+      - 80:80
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.12.1
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+volumes:
+  es_data:
+  redis_data: 
