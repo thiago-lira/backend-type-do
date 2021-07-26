@@ -5,10 +5,11 @@ services:
     image: nginx
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - ../frontend/app:/usr/share/nginx/html/
+      - ../frontend/public:/usr/share/nginx/html/
     ports:
       - 80:80
   elasticsearch:
+    container_name: elastic-service
     image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
     environment:
       - discovery.type=single-node
@@ -17,6 +18,7 @@ services:
     ports:
       - 9200:9200
   kibana:
+    container_name: kibana-service
     image: docker.elastic.co/kibana/kibana:7.12.1
     ports:
       - 5601:5601
